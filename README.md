@@ -1,5 +1,9 @@
 # Company Database
 
+
+https://user-images.githubusercontent.com/113001155/223872587-2198ece2-496d-4295-b51a-0ab59826a1f6.mp4
+
+
 ## Description
 view and manage the departments, roles, and employees in my company
 
