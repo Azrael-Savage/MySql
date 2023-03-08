@@ -1,35 +1,36 @@
-# MySql-Week-12
-```
-MySql
-├─ db
-│  ├─ schema.sql
-│  └─ seeds.sql
-├─ index.js
-├─ package-lock.json
-├─ package.json
-├─ README.md
-└─ src
-   ├─ db.js
-   ├─ department.js
-   ├─ employee.js
-   ├─ menu.js
-   ├─ package-lock.json
-   ├─ package.json
-   └─ role.js
+# Company Database
 
-```
-```
-MySql
-├─ db
-│  ├─ schema.sql
-│  └─ seeds.sql
-├─ index.js
-├─ README.md
-└─ src
-   ├─ db.js
-   ├─ department.js
-   ├─ employee.js
-   ├─ menu.js
-   └─ role.js
+## Description
+view and manage the departments, roles, and employees in my company
 
-```
+## Table of Contents
+- [Company Database](#company-database)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
+  - [Questions](#questions)
+
+## Installation
+clone repo, run npm install in terminal
+
+## Usage
+Select from the options and follow prompts
+
+## License
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is covered under the MIT license.
+
+## Contributing
+
+
+## Tests
+
+
+## Questions
+For additional questions, you can reach me on GitHub at [Azrael Savage](https://github.com/Azrael Savage)
+or via email at thewisegoddessathena@gmail.com.
