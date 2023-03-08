@@ -1,7 +1,26 @@
 {
+  "name": "mysql",
+  "version": "1.0.0",
+  "description": "company database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azrael-Savage/MySql.git"
+  },
+  "author": "Athena King",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Azrael-Savage/MySql/issues"
+  },
+  "homepage": "https://github.com/Azrael-Savage/MySql#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "inquirer": "^9.1.4",
-    "mysql": "^2.18.1"
+    "inquirer": "^6.5.2",
+    "mysql2": "^3.2.0",
+    "node": "^19.6.1"
   }
 }

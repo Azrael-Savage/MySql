@@ -5,6 +5,7 @@ USE company_db;
 CREATE TABLE departments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL
+  budget DECIMAL(10, 2) NOT NULL DEFAULT 0.00
 );
 
 CREATE TABLE roles (

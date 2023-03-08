@@ -1,4 +1,3 @@
-
 const db = require("./db");
 
 // View all departments
@@ -10,9 +9,14 @@ function viewAll(callback) {
   });
 }
 
+// View all departments (using viewAll)
+async function viewAllDepartments(callback) {
+  await viewAll(callback);
+}
+
 // Add a department
 async function add(callback) {
-const { default: inquirer } = await import('inquirer');
+  const { default: inquirer } = await import('inquirer');
 
   inquirer
     .prompt([
@@ -31,4 +35,4 @@ const { default: inquirer } = await import('inquirer');
     });
 }
 
-module.exports = { viewAll, add };
+module.exports = { viewAllDepartments, add };

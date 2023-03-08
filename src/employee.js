@@ -1,113 +1,43 @@
 const db = require('./db');
 
-// View all employees
-async function viewAllAsync() {
-  return new Promise((resolve, reject) => {
-    db.query(
-      `
-      SELECT employees.*, CONCAT_WS(' ', manager.first_name, manager.last_name) AS manager_name, roles.title, roles.salary, departments.name AS department
-      FROM employees
-      LEFT JOIN employees manager ON manager.id = employees.manager_id
-      INNER JOIN roles ON employees.role_id = roles.id
-      INNER JOIN departments ON roles.department_id = departments.id
-      ORDER BY employees.id ASC
-    `,
-      (err, res) => {
-        if (err) reject(err);
-        resolve(res);
-      }
-    );
-  });
+async function getAllEmployees() {
+  const [rows] = await db.query(`
+    SELECT 
+      e.id, 
+      e.first_name, 
+      e.last_name, 
+      r.title, 
+      d.name AS department, 
+      r.salary, 
+      CONCAT(m.first_name, " ", m.last_name) AS manager
+    FROM employees e
+    JOIN roles r ON e.role_id = r.id
+    JOIN departments d ON r.department_id = d.id
+    LEFT JOIN employees m ON e.manager_id = m.id
+  `);
+  return rows;
 }
 
-// Add an employee
-async function add(callback) {
-    const roles = await viewAllAsync();
-    const { default: inquirer } = await import('inquirer');
-    inquirer
-        .prompt([
-            {
-                type: 'input',
-                name: 'first_name',
-                message: 'Enter the first name of the employee:',
-            },
-            {
-                type: 'input',
-                name: 'last_name',
-                message: 'Enter the last name of the employee:',
-            },
-            {
-                type: 'list',
-                name: 'role_id',
-                message: 'Select the employee role:',
-                choices: roles.map((role) => ({
-                    name: role.title,
-                    value: role.id,
-                })),
-            },
-            {
-                type: 'number',
-                name: 'manager_id',
-                message: 'Enter the ID of the employee manager (if any):',
-            },
-        ])
-        .then((answer) => {
-            db.query('INSERT INTO employees SET ?', answer, (err, res) => {
-                if (err) throw err;
-                console.log(`Added employee ${answer.first_name} ${answer.last_name}`);
-                callback();
-            });
-        });
+async function addEmployee(first_name, last_name, role_id, manager_id) {
+  await db.query('INSERT INTO employees SET ?', { first_name, last_name, role_id, manager_id });
 }
 
-// Update an employee role
-function updateRole(callback) {
-  viewAllAsync().then((employees) => {
-    const roles = employees.reduce((acc, curr) => {
-      if (!acc.find((r) => r.id === curr.role_id)) {
-        acc.push({
-          id: curr.role_id,
-          title: curr.title,
-          salary: curr.salary,
-          department: curr.department,
-        });
-      }
-      return acc;
-    }, []);
-
-    inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'employee_id',
-          message: 'Select an employee to update:',
-          choices: employees.map((employee) => ({
-            name: `${employee.first_name} ${employee.last_name}`,
-            value: employee.id,
-          })),
-        },
-        {
-          type: 'list',
-          name: 'role_id',
-          message: 'Select the employee role:',
-          choices: roles.map((role) => ({
-            name: role.title,
-            value: role.id,
-          })),
-        },
-      ])
-      .then((answer) => {
-        db.query(
-          'UPDATE employees SET role_id = ? WHERE id = ?',
-          [answer.role_id, answer.employee_id],
-          (err, res) => {
-            if (err) throw err;
-            console.log('Employee role updated');
-            callback();
-          }
-        );
-      });
-  });
+async function updateEmployeeRole(employee_id, role_id) {
+  await db.query('UPDATE employees SET role_id = ? WHERE id = ?', [role_id, employee_id]);
 }
 
-module.exports = { viewAllAsync, add, updateRole };
+async function updateEmployeeManager(employee_id, manager_id) {
+  await db.query('UPDATE employees SET manager_id = ? WHERE id = ?', [manager_id, employee_id]);
+}
+
+async function deleteEmployee(id) {
+  await db.query('DELETE FROM employees WHERE id = ?', [id]);
+}
+
+async function viewAllEmployees(callback) {
+  const employees = await getAllEmployees();
+  console.table(employees);
+  callback();
+}
+
+module.exports = { getAllEmployees, addEmployee, updateEmployeeRole, updateEmployeeManager, deleteEmployee, viewAllEmployees };
